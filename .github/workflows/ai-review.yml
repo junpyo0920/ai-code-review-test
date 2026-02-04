@@ -7,7 +7,6 @@ on:
     paths:
       - 'boj/**'
       - 'pgs/**'
-      - 'scripts/**'
 
 jobs:
   review:
@@ -41,4 +40,4 @@ jobs:
           REPO_NAME: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.number }}
         run: |
-          python scripts/ai_reviewer.py
+          python .github/scripts/ai_reviewer.py
