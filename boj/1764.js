@@ -1,3 +1,6 @@
+// [BOJ] 1764 듣보잡
+// https://www.acmicpc.net/problem/1764
+
 const fs = require('fs');
 const input = fs.readFileSync('/dev/stdin').toString().trim();
 const lines = input.split('\n');

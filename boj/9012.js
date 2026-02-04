@@ -1,3 +1,5 @@
+// [BOJ] 9012 괄호
+
 const fs = require('fs');
 const input = fs.readFileSync('/dev/stdin').toString().trim();
 

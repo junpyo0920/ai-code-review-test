@@ -1,3 +1,6 @@
+// [BOJ] 2606 바이러스
+// https://www.acmicpc.net/problem/2606
+
 const fs = require('fs');
 const input = fs.readFileSync('/dev/stdin').toString().trim();
 const lines = input.split('\n');
