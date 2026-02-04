@@ -186,8 +186,47 @@ def main():
             )
 
             # PR 코멘트 작성
-            comment_body = f"## {file.filename.split('.')[0]}번 문제!\n\n{response.text}"
-            pr.create_issue_comment(comment_body)
+            problem_id = os.path.splitext(os.path.basename(file.filename))[0]
+            lines = [line for line in content.splitlines() if line.strip()]
+
+            PROVIDERS = ("BOJ", "PRO", "LEET")
+            provider_group = "|".join(PROVIDERS)
+
+            title_pattern = re.compile(rf'^(//|#)\s*\[({provider_group})]\s+.+')
+            url_pattern = re.compile(r'^(//|#)\s*https?://\S+')
+
+            first_line = lines[0] if len(lines) > 0 else ""
+            second_line = lines[1] if len(lines) > 1 else ""
+
+            has_title = bool(title_pattern.match(first_line))
+            has_url = bool(url_pattern.match(second_line))
+
+            problem_title = re.sub(r'^(//|#)\s*', '', first_line) if has_title else ""
+            problem_url = re.sub(r'^(//|#)\s*', '', second_line) if has_url else ""
+
+            if has_title and has_url:
+                comment_header = f"## [{problem_title}]({problem_url})\n\n"
+            elif has_title:
+                comment_header = f"## {problem_title}\n\n"
+            elif has_url:
+                comment_header = f"## [[{site_name}] {problem_id}]({problem_url})\n\n"
+            else:
+                comment_header = f"## [{site_name}] {problem_id}번 문제\n\n"
+
+            comment_body = response.text if hasattr(response, "text") else ""
+
+            # pr.create_issue_comment(comment_body)
+            try:
+                pr.create_review_comment(
+                    body=comment_header + comment_body,
+                    commit=pr.head.sha,
+                    path=file.filename
+                )
+            except Exception:
+                pr.create_issue_comment(
+                    comment_header + comment_body
+                )
+
             print(f"✅ Posted comment for {file.filename}")
 
             # Rate Limit 관리 (Flash 모델도 안전하게 1초 대기)
