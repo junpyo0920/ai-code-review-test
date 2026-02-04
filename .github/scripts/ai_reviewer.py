@@ -222,15 +222,18 @@ def main():
                     commit=pr.head.sha,
                     path=file.filename
                 )
+
+                print(f"✅ Posted comment for {file.filename} on {file.filename}")
             except Exception:
                 pr.create_issue_comment(
                     comment_header + comment_body
                 )
 
-            print(f"✅ Posted comment for {file.filename}")
+                print(f"✅ Posted comment for {file.filename} on PR")
 
             # Rate Limit 관리 (Flash 모델도 안전하게 1초 대기)
-            time.sleep(1)
+            if files.totalCount > 5:
+                time.sleep(13)
 
         except Exception as e:
             print(f"❌ Error processing {file.filename}: {e}")
