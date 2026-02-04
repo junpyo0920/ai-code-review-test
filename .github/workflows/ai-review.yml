@@ -2,11 +2,11 @@ name: Gemini AI Code Review
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened]
     # 알고리즘 문제 파일이 추가될 때만 실행되도록 경로 제한
     paths:
       - 'boj/**'
-      - 'pgs/**'
+      - 'pro/**'
 
 jobs:
   review:
