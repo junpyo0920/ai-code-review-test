@@ -217,10 +217,13 @@ def main():
 
             # pr.create_issue_comment(comment_body)
             try:
+                latest_commit = pr.get_commits().reversed[0]
+
                 pr.create_review_comment(
                     body=comment_header + comment_body,
-                    commit=pr.head.sha,
-                    path=file.filename
+                    commit=latest_commit,
+                    path=file.filename,
+                    subject_type='file'
                 )
 
                 print(f"✅ Posted comment for {file.filename} on {file.filename}")
