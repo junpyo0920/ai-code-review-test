@@ -104,11 +104,6 @@ def main():
     - 대화를 이어가려는 문장은 작성하지 않습니다.
     """
 
-    model = genai.GenerativeModel(
-        model_name=MODEL_NAME,
-        system_instruction=system_instruction
-    )
-
     g = Github(GITHUB_TOKEN)
     repo = g.get_repo(REPO_NAME)
     pr = repo.get_pull(int(PR_NUMBER))
